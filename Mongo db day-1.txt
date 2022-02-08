@@ -1,0 +1,174 @@
+Mongo DB task – Day 1
+Find all the information about each products
+
+> db.products.find().pretty()
+
+Find the product price which are between 400 to 800
+
+>db.products.find({product_price:{$lt:800,$gt:400}}).pretty()
+
+Find the product price which are not between 400 to 600
+
+> db.products.find({product_price:{$not:{$lt:600,$gt:400}}}).pretty()
+
+List the four product which are grater than 500 in price 
+
+> db.products.find({product_price:{$gt:500}}).limit(4).pretty()
+
+Find the product name and product material of each products
+
+> db.products.find({},{product_name:1,product_material:1}).pretty();
+
+Find the product with a row id of 10
+
+> db.products.find({id:{$eq:"10"}}).pretty();
+
+Find only the product name and product material
+
+> db.products.find({},{product_name:1,product_material:1}).pretty();
+
+Find all products which contain the value of soft in product material 
+
+> db.products.find({product_material:{$eq:"Soft"}}).pretty()
+
+Find products which contain product color indigo and product price 492.00
+
+>db.products.find({$and:[{product_color:{$eq:"indigo"}},{product_price:{$eq:492}}]}).pretty()
+
+Delete the products which product price value are same
+>db.products.deleteMany({product_price:400})
+
+
+Mongo DB task –day-2
+
+//JSON DATA
+[
+    {
+        "user" :"Smit",
+        "codekata" : 100,
+        "attendance" :"Absent",
+        "topic" : "React",
+        "month" : "January",
+        "tasks" : "Not Submit",
+        "company_drive":"Not Appeared",
+        "company_drive_date":new Date("2022-10-21"),
+        "mentor" :"Akash"
+    },
+    {
+        "user" :"Harmit",
+        "codekata" : 121,
+        "attendance" :"Present",
+        "topic" : "React js",
+        "month" : "October",
+        "tasks" : "Not Submit",
+        "company_drive":"Appeared",
+        "company_drive_date":new Date("2022-01-01"),
+        "mentor" :"Harshit"
+    },
+    {
+        "user" :"Anil",
+        "codekata" : 100,
+        "attendance" :"Absent",
+        "topic" : "JS",
+        "month" : "February",
+        "tasks" : "Not Submit",
+        "company_drive":"Not Appeared",
+        "company_drive_date":new Date("2022-10-17"),
+        "mentor" :"Amar"
+    },
+    {
+        "user" :"Amit",
+        "codekata" : 111,
+        "attendance" :"Present",
+        "topic" : "React",
+        "month" : "April",
+        "tasks" : "Not Submit",
+        "company_drive":"Appeared",
+        "company_drive_date":new Date("2022-01-01"),
+        "mentor" :"Harshit"
+    },
+    {
+        "user" :"Sumit",
+        "codekata" : 121,
+        "attendance" :"Absent",
+        "topic" : "HTML/CSS/JS",
+        "month" : "October",
+        "tasks" : "Not Submit",
+        "company_drive":"Not Appeared",
+        "company_drive_date":new Date("2022-01-01"),
+        "mentor" :"Jainish"
+    },
+    {
+        "user" :"Rajesh",
+        "codekata" : 110,
+        "attendance" :"Absent",
+        "topic" : "React JS",
+        "month" : "October",
+        "tasks" : "Not Submit",
+        "company_drive":"Not Appeared",
+        "company_drive_date":new Date("2022-09-10"),
+        "mentor" :"Kirti"
+    },
+    {
+        "user" :"Smith",
+        "codekata" : 145,
+        "attendance" :"Present",
+        "topic" : "React",
+        "month" : "Navenber",
+        "tasks" : "Not Submit",
+        "company_drive":"Appeared",
+        "company_drive_date":new Date("2023-02-07"),
+        "mentor" :"Mukesh"
+    },
+    {
+        "user" :"Simba",
+        "codekata" : 99,
+        "attendance" :"Absent",
+        "topic" : "JS",
+        "month" : "March",
+        "tasks" : "Not Submit",
+        "company_drive":"Not Appeared",
+        "company_drive_date":new Date("2021-12-12"),
+        "mentor" :"Akash"
+    },
+    {
+        "user" :"Madhav",
+        "codekata" : 199,
+        "attendance" :"Present",
+        "topic" : "JS",
+        "month" : "March",
+        "tasks" : "Not Submit",
+        "company_drive":"Not Appeared",
+        "company_drive_date":new Date("2022-01-01"),
+        "mentor" :"Smir"
+    },
+    {
+        "user" :"Romin",
+        "codekata" : 99,
+        "attendance" :"Absent",
+        "topic" : "HTML/CSS/JS",
+        "month" : "March",
+        "tasks" : "Not Submit",
+        "company_drive":"Not Appeared",
+        "company_drive_date":new Date("2022-10-27"),
+        "mentor" :"Samir"
+    }
+]
+
+
+1.Find all the topics and tasks which are thought in the month of October
+db.class.find({month:"October"}).pretty()
+
+2.Find all the company drives which appeared between 15 oct-2020 and 31-oct-2020
+db.class.find({company_drive_date:{$gt:ISODate("2022-10-15T00:00:00Z"),$lt:ISODate("2022-10-31T00:00:00Z")}})
+
+3.Find all the company drives and students who are appeared for the placement.
+ db.class.find({company_drive:"Appeared"}).pretty()
+
+4.Find the number of problems solved by the user in codekata
+db.class.aggregate([{ $group: { _id: "", TotalSum: { $sum: "$codekata" } } } ])
+
+5.Find all the mentors with who has the mentee's count more than 15
+
+6.Find the number of users who are absent and task is not submitted  between 15 oct-2020 and 31-oct-2020
+db.class.find({$or:[{attendance:"Absent",task:"Not Submit"},{company_drive_date:{$gt:ISODate("2022-10-15T00:00:00Z"),$lt:ISODate("2022-10-31T00:00:00Z")}}]}).pretty()
